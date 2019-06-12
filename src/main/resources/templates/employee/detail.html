@@ -68,6 +68,7 @@
 
 <!-- ここにモックのform要素を貼り付けます -->
 
+
 					<form method="post" action="list.html" th:action="@{/employee/update}" th:object="${updateEmployeeForm}">
 						<fieldset>
 							<legend>従業員情報</legend>
@@ -169,6 +170,7 @@
 							</table>
 							<button type="submit" class="btn btn-primary">更新</button>
 						</fieldset>
+						<a th:href="@{/employee/showList}">従業員一覧へ戻る</a>
 					</form>
 					
 					
