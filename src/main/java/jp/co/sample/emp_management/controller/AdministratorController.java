@@ -74,19 +74,19 @@ public class AdministratorController {
 	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
 		if (result.hasErrors()) {
 			return toInsert();
-		}
-		try {
-			Administrator administrator = new Administrator();
-			// フォームからドメインにプロパティ値をコピー
-			BeanUtils.copyProperties(form, administrator);
-			System.out.println(administrator);
-			administratorService.insert(administrator);
-			return "redirect:/";
-		} catch (DataAccessException ex) {
+		} else if (administratorService.findByMailAddress(form.getMailAddress()) != null) {
 			// mailAddressフィールドにエラーを追加
 			result.rejectValue("mailAddress", null, "既に登録されているメールアドレスです");
 			return toInsert();
 		}
+		
+		Administrator administrator = new Administrator();
+		// フォームからドメインにプロパティ値をコピー
+		BeanUtils.copyProperties(form, administrator);
+		System.out.println(administrator);
+		administratorService.insert(administrator);
+
+		return "redirect:/";
 	}
 
 	/////////////////////////////////////////////////////

@@ -1,6 +1,10 @@
 package jp.co.sample.emp_management.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,5 +42,15 @@ public class AdministratorService {
 	public Administrator login(String mailAddress, String passward) {
 		Administrator administrator = administratorRepository.findByMailAddressAndPassward(mailAddress, passward);
 		return administrator;
+	}
+	
+	/**
+	 * メールアドレスから管理者情報を取得します.
+	 * 
+	 * @param mailAddress メールアドレス
+	 * @return 管理者情報 存在しない場合はnullを返します
+	 */
+	public Administrator findByMailAddress(String mailAddress) {
+		return administratorRepository.findByMailAddress(mailAddress);
 	}
 }
