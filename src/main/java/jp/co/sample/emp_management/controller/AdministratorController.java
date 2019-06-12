@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +30,7 @@ public class AdministratorController {
 
 	@Autowired
 	private AdministratorService administratorService;
-	
+
 	@Autowired
 	private HttpSession session;
 
@@ -42,8 +43,8 @@ public class AdministratorController {
 	public InsertAdministratorForm setUpInsertAdministratorForm() {
 		return new InsertAdministratorForm();
 	}
-	
-	//  (SpringSecurityに任せるためコメントアウトしました)
+
+	// (SpringSecurityに任せるためコメントアウトしました)
 	@ModelAttribute
 	public LoginForm setUpLoginForm() {
 		return new LoginForm();
@@ -63,22 +64,29 @@ public class AdministratorController {
 	}
 
 	/**
-	 * 管理者情報を登録します.
+	 * 管理者情報を登録します.<br>
+	 * 入力エラーやインサートエラー（既に登録済みのメールアドレス）の場合は登録画面を返す。
 	 * 
-	 * @param form
-	 *            管理者情報用フォーム
-	 * @return ログイン画面へリダイレクト
+	 * @param form 管理者情報用フォーム
+	 * @return ログイン画面へリダイレクト / エラー時：登録画面
 	 */
 	@RequestMapping("/insert")
 	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			return toInsert();
 		}
-		Administrator administrator = new Administrator();
-		// フォームからドメインにプロパティ値をコピー
-		BeanUtils.copyProperties(form, administrator);
-		administratorService.insert(administrator);
-		return "redirect:/";
+		try {
+			Administrator administrator = new Administrator();
+			// フォームからドメインにプロパティ値をコピー
+			BeanUtils.copyProperties(form, administrator);
+			System.out.println(administrator);
+			administratorService.insert(administrator);
+			return "redirect:/";
+		} catch (DataAccessException ex) {
+			// mailAddressフィールドにエラーを追加
+			result.rejectValue("mailAddress", null, "既に登録されているメールアドレスです");
+			return toInsert();
+		}
 	}
 
 	/////////////////////////////////////////////////////
@@ -97,10 +105,8 @@ public class AdministratorController {
 	/**
 	 * ログインします.
 	 * 
-	 * @param form
-	 *            管理者情報用フォーム
-	 * @param result
-	 *            エラー情報格納用オブッジェクト
+	 * @param form   管理者情報用フォーム
+	 * @param result エラー情報格納用オブッジェクト
 	 * @return ログイン後の従業員一覧画面
 	 */
 	@RequestMapping("/login")
@@ -112,7 +118,7 @@ public class AdministratorController {
 		}
 		return "forward:/employee/showList";
 	}
-	
+
 	/////////////////////////////////////////////////////
 	// ユースケース：ログアウトをする
 	/////////////////////////////////////////////////////
@@ -126,5 +132,5 @@ public class AdministratorController {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
+
 }
