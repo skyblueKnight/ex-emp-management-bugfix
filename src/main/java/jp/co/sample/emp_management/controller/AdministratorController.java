@@ -64,26 +64,22 @@ public class AdministratorController {
 
 	/**
 	 * 管理者情報を登録します.<br>
-	 *・入力値エラー
-	 *・既に登録済みのメールアドレス
-	 *・パスワードと確認用メールアドレスが一致しない
-	 *の場合は登録画面を返す。
+	 * ・入力値エラー ・既に登録済みのメールアドレス ・パスワードと確認用メールアドレスが一致しない の場合は登録画面を返す。
 	 * 
 	 * @param form 管理者情報用フォーム
 	 * @return ログイン画面へリダイレクト / エラー時：登録画面
 	 */
 	@RequestMapping("/insert")
 	public String insert(@Validated InsertAdministratorForm form, BindingResult result) {
+		if (administratorService.findByMailAddress(form.getMailAddress()) != null) {
+			result.rejectValue("mailAddress", null, "既に登録されているメールアドレスです");
+		}
+		if (!(form.getPassword().equals(form.getConfirmationPassword()))) {
+			result.rejectValue("confirmationPassword", null, "パスワードが一致しません");
+		}
 		if (result.hasErrors()) {
 			return toInsert();
-		} else if (administratorService.findByMailAddress(form.getMailAddress()) != null) {
-			result.rejectValue("mailAddress", null, "既に登録されているメールアドレスです");
-			return toInsert();
-		} else if (!(form.getPassword().equals(form.getConfirmationPassword()))) {
-			result.rejectValue("confirmationPassword", null, "パスワードが一致しません");
-			return toInsert();
 		}
-		
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
@@ -120,7 +116,7 @@ public class AdministratorController {
 			result.addError(new ObjectError("loginError", "メールアドレスまたはパスワードが不正です。"));
 			return toLogin();
 		}
-		
+
 		session.setAttribute("administratorName", administrator.getName());
 		return "forward:/employee/showList";
 	}
