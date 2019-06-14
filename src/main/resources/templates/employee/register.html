@@ -89,7 +89,35 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      写真
+							      <label for="imageField">写真</label>
+							    </th>
+							    <td>
+									<label th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="error-messages">
+											写真をアップロードしてください
+									</label>
+									<label class="control-label" style="color: red" for="imageField"></label>
+
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      <label for="manField">性別</label>
+							    </th>
+							    <td>
+									<label th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="error-messages">
+											性別を入力してください
+									</label>
+									<label class="control-label" style="color: red" for="imageField"></label>
+							    	<input name="gender" type="radio" id="manField" value="男" th:field="*{gender}" checked>
+							    		<label for="manField">男</label>　 							    
+							    	<input name="gender" type="radio" id="womanField" value="女" th:field="*{gender}">					    
+							    		<label for="womanField">女</label>　 							    
+
+							    </td>
+							  </tr>
+							  <tr>
+							    <th nowrap>
+							      <label for="hireDateField">入社日</label>
 							    </th>
 							    <td>
 
@@ -97,23 +125,7 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      性別
-							    </th>
-							    <td>
-
-							    </td>
-							  </tr>
-							  <tr>
-							    <th nowrap>
-							      入社日
-							    </th>
-							    <td>
-
-							    </td>
-							  </tr>
-							  <tr>
-							    <th nowrap>
-							      メールアドレス
+							      <label for="mailAddressField">メールアドレス</label>
 							    </th>
 							    <td>
 									<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
@@ -126,7 +138,7 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      郵便番号
+							      <label for="zipCodeField">郵便番号</label>
 							    </th>
 							    <td>
 									<label th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" class="error-messages">
@@ -140,7 +152,7 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      住所
+							      <label for="addressField">住所</label>
 							    </th>
 							    <td>
 									<label th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-messages">
@@ -154,7 +166,7 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      電話番号
+							      <label for="telephoneField">電話番号</label>
 							    </th>
 							    <td>
 									<label th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="error-messages">
@@ -168,7 +180,8 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      給料
+							      <label for="salaryField">給料</label>
+							      
 							    </th>
 							    <td>
 									<label th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error-messages">
@@ -182,15 +195,18 @@
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      特性
+							      <label for="characteristicsField">特性</label>
 							    </th>
 							    <td>
-
+									<label th:if="${#fields.hasErrors('characteristics')}" th:errors="*{characteristics}" class="error-messages">
+											特性を入力してください
+									</label>
+									<textarea rows="5" cols="50" id="characteristicsField" name="characteristics" th:field="*{characteristics}" ></textarea>
 							    </td>
 							  </tr>
 							  <tr>
 							    <th nowrap>
-							      扶養人数
+							      <label for="dependentsCountField">扶養人数</label>
 							    </th>
 							    <td>
 									<label th:if="${#fields.hasErrors('dependentsCount')}" th:errors="*{dependentsCount}" class="error-messages">

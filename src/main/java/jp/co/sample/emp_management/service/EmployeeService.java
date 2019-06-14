@@ -69,7 +69,10 @@ public class EmployeeService {
 	 * 
 	 * @param employee 登録する従業員情報
 	 */
-	public void register(Employee employee) {
+	public void register(Employee employee) {	
+		System.out.println("service開始");
+		employee.setId(employeeRepository.getMaxId());
 		employeeRepository.insert(employee);
+		System.out.println("service終了");
 	}
 }

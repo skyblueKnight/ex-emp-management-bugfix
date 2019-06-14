@@ -3,6 +3,7 @@ package jp.co.sample.emp_management.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -118,6 +119,8 @@ public class EmployeeController {
 		return "employee/detail";
 	}
 
+	
+	
 	/////////////////////////////////////////////////////
 	// ユースケース：従業員詳細を更新する
 	/////////////////////////////////////////////////////
@@ -154,6 +157,10 @@ public class EmployeeController {
 	@RequestMapping("/register-info")
 	public String registerInfo(InsertEmployeeForm form) {
 		
+		Employee employee = new Employee();
+		BeanUtils.copyProperties(form, employee);
+		employeeService.register(employee);
+		
 		return "redirect:/employee/to-completion-registration";
 	}
 	
@@ -168,6 +175,12 @@ public class EmployeeController {
 		return "employee/register";
 	}
 	
+	/**
+	 * 登録完了画面に遷移する.
+	 * 
+	 * @param model モデル
+	 * @return 登録完了画面
+	 */
 	@RequestMapping("/to-completion-registration")
 	public String toCompletionRegistration(Model model){
 		Employee employee = employeeService.showDetail(1);
