@@ -64,6 +64,12 @@
 
 <!-- ここにモックのtable要素を貼り付けます -->
 
+				<form th:action="@{/employee/findLike}" method="post">
+						<label for="findLikeField">従業員検索：</label>
+						<input id="findLikeField" name="name" type="text">
+						<button>検索</button>
+				</form>
+
 				<table class="table table-striped">
 					<thead>
 						<tr>
