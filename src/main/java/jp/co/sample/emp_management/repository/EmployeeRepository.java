@@ -84,7 +84,7 @@ public class EmployeeRepository {
 	 * @param name　検索を行う名前
 	 * @return　取得した従業員詳細一覧
 	 */
-	public List<Employee> findLike(String name){
+	public List<Employee> findByLikeName(String name){
 		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,"
 				+ "characteristics,dependents_count"
 				+ " FROM employees"

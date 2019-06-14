@@ -51,7 +51,7 @@ public class EmployeeService {
 	 * @return 取得した従業員詳細一覧
 	 */
 	public List<Employee> findLike(String name) {
-		List<Employee> developmentList = employeeRepository.findLike(name);
+		List<Employee> developmentList = employeeRepository.findByLikeName(name);
 		return developmentList;
 	}
 
