@@ -1,5 +1,6 @@
 package jp.co.sample.emp_management.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.sample.emp_management.domain.Employee;
 import jp.co.sample.emp_management.form.UpdateEmployeeForm;
@@ -53,11 +55,36 @@ public class EmployeeController {
 		return "employee/list";
 	}
 
+	/**
+	 * 名前から曖昧検索を行う.
+	 * 
+	 * @param name  あいまい検索を行う名前
+	 * @param model モデル
+	 * @return 取得した従業員詳細一覧
+	 */
 	@RequestMapping("/findLike")
 	public String findLike(String name, Model model) {
 		List<Employee> employeeList = employeeService.findLike(name);
 		model.addAttribute("employeeList", employeeList);
 		return "employee/list";
+	}
+
+	/**
+	 * 曖昧検索のオートコンプリート用の名前リストを取得する.
+	 * 
+	 * @return 全従業員の名前リスト
+	 */
+	@ResponseBody
+	@RequestMapping("/getAutoComplete")
+	public List<String> getAutoComplete() {
+		List<String> nameList = new ArrayList<String>();
+		List<Employee> employeeList = employeeService.showList();
+
+		for (Employee employee : employeeList) {
+			nameList.add(employee.getName());
+		}
+
+		return nameList;
 	}
 
 	/////////////////////////////////////////////////////
