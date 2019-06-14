@@ -54,7 +54,6 @@
 		<!-- パンくずリスト -->
 		<ol class="breadcrumb">
 			<li><a href="list.html" th:href="@{/employee/showList}">従業員リスト</a></li>
-			<li class="active">従業員詳細</li>
 		</ol>
 		
 		<!-- register form -->
@@ -70,16 +69,22 @@
 <!-- ここにモックのform要素を貼り付けます -->
 
 
-					<form method="post" action="list.html" th:action="@{/employee/update}" th:object="${updateEmployeeForm}">
+					<form method="post" action="list.html" th:action="@{/employee/register-info}" th:object="${insertEmployeeForm}">
 						<fieldset>
-							<legend>従業員情報</legend>
+							<legend>従業員 新規登録</legend>
 							<table class="table table-striped">
 							  <tr>
 							    <th nowrap>
-							      従業員名
+							      <label for="nameField">従業員名</label>
 							    </th>
 							    <td>
-							     <span th:text="${employee.name}">山田花子</span>
+									<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-messages">
+											名前を入力してください
+									</label>
+									<label class="control-label" style="color: red" for="nameField"></label>
+									<input type="text" name="name" id="nameField" class="form-control"
+										 th:errorclass="error-input" >
+										 
 							    </td>
 							  </tr>
 							  <tr>
@@ -87,7 +92,7 @@
 							      写真
 							    </th>
 							    <td>
-							      <img src="../../static/img/e2.png" th:src="${'/img/' + employee.image}" />
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -95,7 +100,7 @@
 							      性別
 							    </th>
 							    <td>
-							      <span th:text="${employee.gender}">女性</span>
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -103,7 +108,7 @@
 							      入社日
 							    </th>
 							    <td>
-							      <span th:text="${#dates.format(employee.hireDate,'yyyy年MM月dd日')}">2012/11/29</span>
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -111,7 +116,12 @@
 							      メールアドレス
 							    </th>
 							    <td>
-							      <span th:utext="${employee.mailAddress}">yamada@sample.com</span>
+									<label th:if="${#fields.hasErrors('mailAddress')}" th:errors="*{mailAddress}" class="error-messages">
+											メールアドレスを入力してください
+									</label>
+									<label class="control-label" style="color: red" for="mailAddressField"></label>
+									<input type="text" name="mailAddress" id="mailAddressField" class="form-control"
+										 th:errorclass="error-input" >
 							    </td>
 							  </tr>
 							  <tr>
@@ -119,7 +129,13 @@
 							      郵便番号
 							    </th>
 							    <td>
-							      <span th:text="${employee.zipCode}">111-1111</span>
+									<label th:if="${#fields.hasErrors('zipCode')}" th:errors="*{zipCode}" class="error-messages">
+											郵便番号を入力してください
+									</label>
+									<label class="control-label" style="color: red" for="zipCodeField"></label>
+									<input type="text" name="zipCode" id="zipCodeField" class="form-control"
+										 th:errorclass="error-input" >
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -127,7 +143,13 @@
 							      住所
 							    </th>
 							    <td>
-							      <span th:text="${employee.address}">東京都新宿区1-1-1</span>
+									<label th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error-messages">
+											住所を入力してください
+									</label>
+									<label class="control-label" style="color: red" for="addressField"></label>
+									<input type="text" name="address" id="addressField" class="form-control"
+										 th:errorclass="error-input" >
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -135,7 +157,13 @@
 							      電話番号
 							    </th>
 							    <td>
-							      <span th:text="${employee.telephone}">090-0000-0000</span>
+									<label th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}" class="error-messages">
+											電話番号を入力してください
+									</label>
+									<label class="control-label" style="color: red" for="telephoneField"></label>
+									<input type="text" name="telephone" id="telephoneField" class="form-control"
+										 th:errorclass="error-input" >
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -143,7 +171,13 @@
 							      給料
 							    </th>
 							    <td>
-							      <span th:text="${#numbers.formatInteger(employee.salary, 1, 'COMMA') + '円'}">400000円</span>
+									<label th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}" class="error-messages">
+											給料を入力してください
+									</label>
+									<label class="control-label" style="color: red" for="salaryField"></label>
+									<input type="text" name="salary" id="salaryField" class="form-control"
+										 th:errorclass="error-input" >
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -151,7 +185,7 @@
 							      特性
 							    </th>
 							    <td>
-							      <span th:text="${employee.characteristics}">明るく素直な性格です。リーダーシップを発揮します。新卒社員研修の時はグループ開発の時にリーダーを買ってでました。積極性も人間性も抜群です。周りに対する不満も聞いたことがありません。</span>
+
 							    </td>
 							  </tr>
 							  <tr>
@@ -159,17 +193,17 @@
 							      扶養人数
 							    </th>
 							    <td>
-							    	<label th:if="${#fields.hasErrors('dependentsCount')}" th:errors="*{dependentsCount}" class="error-messages">
+									<label th:if="${#fields.hasErrors('dependentsCount')}" th:errors="*{dependentsCount}" class="error-messages">
 											扶養人数を入力してください
 									</label>
-									<label class="control-label" style="color: red" for="dependentsCount"></label>
-									<input type="hidden" name="id" th:value="${employee.id}">
-									<input type="text" name="dependentsCount" id="dependentsCount" class="form-control" value="3"
-										 th:errorclass="error-input" th:value="${employee.dependentsCount}">
+									<label class="control-label" style="color: red" for="nameField"></label>
+									<input type="text" name="dependentsCount" id="dependentsCountField" class="form-control" 
+										 th:errorclass="error-input" >
+
 							    </td>
 							  </tr>
 							</table>
-							<button type="submit" class="btn btn-primary">更新</button>
+							<button type="submit" class="btn btn-primary">登録</button>
 						</fieldset>
 						<a th:href="@{/employee/showList}">従業員一覧へ戻る</a>
 					</form>

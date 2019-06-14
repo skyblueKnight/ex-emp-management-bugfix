@@ -108,4 +108,24 @@ public class EmployeeRepository {
 		String updateSql = "UPDATE employees SET dependents_count=:dependentsCount WHERE id=:id";
 		template.update(updateSql, param);
 	}
+	
+	
+	
+	/**
+	 *従業員情報を追加します.
+	 * 
+	 * @param employee 追加する従業員情報
+	 */
+	public void insert(Employee employee) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
+		
+		String updateSql = "insert into employees(name,image,gender, hireDate, mailAddress,"
+				+ " zipCode, address, telephone, salary, characteristics, dependentsCount)"
+				+ " values(:name,:image,:gender, :hireDate, :mailAddress, :zipCode, :address,"
+				+ " :telephone, :salary, :characteristics, :dependentsCount);";
+		
+		template.update(updateSql, param);
+	}
+	
+	
 }

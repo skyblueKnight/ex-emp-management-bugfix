@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jp.co.sample.emp_management.domain.Employee;
+import jp.co.sample.emp_management.form.InsertEmployeeForm;
 import jp.co.sample.emp_management.form.UpdateEmployeeForm;
 import jp.co.sample.emp_management.service.EmployeeService;
 
@@ -38,6 +39,19 @@ public class EmployeeController {
 	public UpdateEmployeeForm setUpForm() {
 		return new UpdateEmployeeForm();
 	}
+	
+	/**
+	 * 従業員の新規登録で使うフォーム.
+	 * 
+	 * @return フォーム
+	 */
+	@ModelAttribute
+	public InsertEmployeeForm setUpInsertForm() {
+		return new InsertEmployeeForm();
+	}
+	
+	
+	
 
 	/////////////////////////////////////////////////////
 	// ユースケース：従業員一覧を表示する
@@ -124,4 +138,43 @@ public class EmployeeController {
 		employeeService.update(employee);
 		return "redirect:/employee/showList";
 	}
+	
+	
+	
+	/////////////////////////////////////////////////////
+	// ユースケース：従業員情報を登録する
+	/////////////////////////////////////////////////////
+	
+	/**
+	 * 従業員情報を登録する.
+	 * 
+	 * @param form 登録する従業員情報
+	 * @return 
+	 */
+	@RequestMapping("/register-info")
+	public String registerInfo(InsertEmployeeForm form) {
+		
+		return "redirect:/employee/to-completion-registration";
+	}
+	
+	
+	/**
+	 * 従業員登録画面へ遷移する.
+	 * 
+	 * @return 従業員登録画面
+	 */
+	@RequestMapping("/to-register-page")
+	public String toRegisterPage() {
+		return "employee/register";
+	}
+	
+	@RequestMapping("/to-completion-registration")
+	public String toCompletionRegistration(Model model){
+		Employee employee = employeeService.showDetail(1);
+		model.addAttribute("employee", employee);
+		return "employee/completion-registration";
+	}
+	
+	
+	
 }

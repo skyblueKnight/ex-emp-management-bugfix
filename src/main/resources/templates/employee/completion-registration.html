@@ -54,7 +54,6 @@
 		<!-- パンくずリスト -->
 		<ol class="breadcrumb">
 			<li><a href="list.html" th:href="@{/employee/showList}">従業員リスト</a></li>
-			<li class="active">従業員詳細</li>
 		</ol>
 		
 		<!-- register form -->
@@ -70,9 +69,9 @@
 <!-- ここにモックのform要素を貼り付けます -->
 
 
-					<form method="post" action="list.html" th:action="@{/employee/update}" th:object="${updateEmployeeForm}">
 						<fieldset>
 							<legend>従業員情報</legend>
+							以下の情報を登録しました。
 							<table class="table table-striped">
 							  <tr>
 							    <th nowrap>
@@ -159,20 +158,12 @@
 							      扶養人数
 							    </th>
 							    <td>
-							    	<label th:if="${#fields.hasErrors('dependentsCount')}" th:errors="*{dependentsCount}" class="error-messages">
-											扶養人数を入力してください
-									</label>
-									<label class="control-label" style="color: red" for="dependentsCount"></label>
-									<input type="hidden" name="id" th:value="${employee.id}">
-									<input type="text" name="dependentsCount" id="dependentsCount" class="form-control" value="3"
-										 th:errorclass="error-input" th:value="${employee.dependentsCount}">
+
 							    </td>
 							  </tr>
 							</table>
-							<button type="submit" class="btn btn-primary">更新</button>
 						</fieldset>
 						<a th:href="@{/employee/showList}">従業員一覧へ戻る</a>
-					</form>
 					
 					
 <!-- ここから下を編集する必要はありません -->
