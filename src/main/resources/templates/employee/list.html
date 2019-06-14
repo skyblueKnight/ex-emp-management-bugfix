@@ -33,6 +33,30 @@
 	});
 </script>
 
+<script>
+$(function() {
+  var page = 0;
+  function draw() {
+    $('#page').html(page + 1);
+    $('tr').hide();
+    $('tr:first,tr:gt(' + page * 10 + '):lt(10)').show();
+  }
+  $('#prev').click(function() {
+    if (page > 0) {
+      page--;
+      draw();
+    }
+  });
+  $('#next').click(function() {
+    if (page < ($('tr').size() - 1) / 10 - 1) {
+      page++;
+      draw();
+    }
+  });
+  draw();
+});
+</script>
+
 </head>
 <body>
 	<div class="container">
@@ -89,6 +113,8 @@
 						<input id="findLikeField" name="name" type="text">
 						<button>検索</button>
 				</form>
+				
+				<input type="button" id="prev" value="＜">　<span id="page"></span>　<input type="button" id="next" value="＞">
 
 				<table class="table table-striped">
 					<thead>
